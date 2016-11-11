@@ -1,0 +1,44 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'remo'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    versionLombok = '1.16.10'
+    versionGuava = '20.0'
+    versionGroovy = '2.4.7'
+    versionPi4j = '1.1'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("com.pi4j:pi4j-core:$versionPi4j")
+    compile("org.projectlombok:lombok:$versionLombok")
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.codehaus.groovy:groovy-all:$versionGroovy")
+    testCompile("org.spockframework:spock-spring")
+}
