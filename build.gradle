@@ -12,7 +12,6 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'groovy'
-apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -33,12 +32,33 @@ ext {
     versionPi4j = '1.1'
 }
 
+test {
+    testLogging {
+        // set options for log level LIFECYCLE
+        events 'started', 'passed'
+        exceptionFormat "short"
+
+        // set options for log level DEBUG
+        debug {
+            events "started", "skipped", "failed"
+            exceptionFormat "full"
+        }
+
+        // remove standard output/error logging from --info builds
+        // by assigning only 'failed' and 'skipped' events
+        info.events = ["failed", "skipped"]
+    }
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("com.pi4j:pi4j-core:$versionPi4j")
     compile("org.projectlombok:lombok:$versionLombok")
+    compile("com.google.guava:guava:$versionGuava")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.codehaus.groovy:groovy-all:$versionGroovy")
     testCompile("org.spockframework:spock-spring")
 }
+
+apply plugin: 'idea'
